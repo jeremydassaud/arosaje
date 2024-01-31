@@ -1,0 +1,107 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./mainBdd.sqlite"
+}
+
+model User {
+    id           Int            @id @default(autoincrement())
+    email        String         @unique
+    userName     String?
+    password     String
+    imageSrc     String?
+    plantOwned   PlantOwned[]
+    plantGuarded PlantGuarded[]
+    address      Address[]
+    userRole     UserRole[]
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+}
+
+model UserRole {
+    id     Int   @id @default(autoincrement())
+    User   User? @relation(fields: [userId], references: [id])
+    userId Int?
+    Role   Role? @relation(fields: [roleId], references: [id])
+    roleId Int?
+}
+
+model Role {
+    id        Int        @id @default(autoincrement())
+    content   String     @unique
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    userRole  UserRole[]
+}
+
+model PlantOwned {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    plant     Plant[]
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model PlantGuarded {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    plant     Plant[]
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Address {
+    id         Int      @id @default(autoincrement())
+    number     Int
+    street     String
+    postalCode Int
+    city       String
+    country    String
+    lat        Float
+    lng        Float
+    userId     Int
+    user       User     @relation(fields: [userId], references: [id])
+    plant      Plant[]
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
+
+model Plant {
+    id              Int           @id @default(autoincrement())
+    common_name     String
+    scientific_name String
+    image_url       String
+    plantOwnedId    Int
+    plantOwned      PlantOwned    @relation(fields: [plantOwnedId], references: [id])
+    plantGuardedId  Int?
+    plantGuarded    PlantGuarded? @relation(fields: [plantGuardedId], references: [id])
+    addressId       Int
+    address         Address       @relation(fields: [addressId], references: [id])
+    comment         Comment[]
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+}
+
+model Comment {
+    id         Int       @id @default(autoincrement())
+    content    String
+    Plant      Plant?    @relation(fields: [plantId], references: [id])
+    plantId    Int?
+    response   Response? @relation(fields: [responseId], references: [id])
+    responseId Int?
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+}
+
+model Response {
+    id        Int       @id @default(autoincrement())
+    content   String
+    Comment   Comment[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+}
