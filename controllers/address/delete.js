@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 exports.delete = async (req, res) => {
   console.log("delete user route");
 
-  const userId = req.params.id;
+  const addressId = parseInt(req.params.id);
 
   try {
     const userIdFromToken = req.auth.userId;
@@ -17,28 +17,31 @@ exports.delete = async (req, res) => {
       },
     });
 
-    if (isAdmin || userIdFromToken === parseInt(userId)) {
+    const addressToDelete = await prisma.address.findUnique({
+      where: { id: Number(addressId) },
+    });
 
-      const deletedUser = await prisma.user.delete({
-        where: { id: Number(userId) },
+    if (isAdmin || addressToDelete.userId === userIdFromToken) {
+      const deletedAddress = await prisma.address.delete({
+        where: { id: Number(addressId) },
       });
 
-      res.status(200).json({ message: "User deleted", data: deletedUser });
+      res
+        .status(200)
+        .json({ message: "address deleted", data: deletedAddress });
     } else {
       res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
     console.error(
-      "Error on the delete of the user:",
+      "Error on the delete of the address:",
       error.message || "Internal Server Error"
     );
     res.status(500).json({
-      error: "Error on the delete of the user",
+      error: "Error on the delete of the address",
       details: "Internal Server Error",
     });
   } finally {
     await prisma.$disconnect();
   }
 };
-
-  

@@ -28,8 +28,8 @@ exports.update = async (req, res) => {
         content: "admin",
       },
     });
-
-    if (isAdmin || userIdFromToken === userId) {
+     console.log(userId)
+    if (isAdmin || userIdFromToken === parseInt(userId)) {
       
       let updatedData = {};
 

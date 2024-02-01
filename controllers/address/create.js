@@ -1,12 +1,14 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-exports.delete = async (req, res) => {
-  console.log("delete user route");
-
-  const userId = req.params.id;
+// Fonction pour créer une nouvelle adresse
+exports.create = async (req, res) => {
+  const userId = req.params.userId;
 
   try {
+    const { number, street, postalCode, city, country, lat, lng } =
+      req.body;
+
     const userIdFromToken = req.auth.userId;
     const userRolesFromToken = req.auth.userRole;
 
@@ -15,30 +17,37 @@ exports.delete = async (req, res) => {
         id: userRolesFromToken,
         content: "admin",
       },
-    });
-
+    }); 
     if (isAdmin || userIdFromToken === parseInt(userId)) {
 
-      const deletedUser = await prisma.user.delete({
-        where: { id: Number(userId) },
+      const newAddress = await prisma.address.create({
+        data: {
+          number,
+          street,
+          postalCode,
+          city,
+          country,
+          lat,
+          lng,
+          userId : parseInt(userId),
+        },
       });
 
-      res.status(200).json({ message: "User deleted", data: deletedUser });
+      res.status(201).json({ message: "Address created", data: newAddress });
     } else {
       res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
     console.error(
-      "Error on the delete of the user:",
+      error,
+      "error: Error unable to create the address",
       error.message || "Internal Server Error"
     );
     res.status(500).json({
-      error: "Error on the delete of the user",
+      error: "Error unable to create the address",
       details: "Internal Server Error",
     });
   } finally {
     await prisma.$disconnect();
   }
 };
-
-  

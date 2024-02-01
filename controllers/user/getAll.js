@@ -5,12 +5,27 @@ exports.getAll = async (req, res) => {
   console.log("getAll user route");
   try {
     const users = await prisma.user.findMany({
-
       select: {
         userName: true,
         email: true,
-        plantOwned: true,
-        plantGuarded: true,
+        plantOwned: {
+          include: {
+            plant: {
+              include : {
+                comment : true
+              }
+            },
+          },
+        },
+        plantGuarded: {
+          include: {
+            plant: {
+              include : {
+                comment : true
+              }
+            },
+          },
+        },
         address: true,
       },
     });

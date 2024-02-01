@@ -17,6 +17,7 @@ model User {
     plantGuarded PlantGuarded[]
     address      Address[]
     userRole     UserRole[]
+    comment      Comment[]
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
 }
@@ -76,8 +77,8 @@ model Plant {
     common_name     String
     scientific_name String
     image_url       String
-    plantOwnedId    Int
-    plantOwned      PlantOwned    @relation(fields: [plantOwnedId], references: [id])
+    plantOwnedId    Int?
+    plantOwned      PlantOwned?   @relation(fields: [plantOwnedId], references: [id])
     plantGuardedId  Int?
     plantGuarded    PlantGuarded? @relation(fields: [plantGuardedId], references: [id])
     addressId       Int
@@ -90,12 +91,14 @@ model Plant {
 model Comment {
     id         Int       @id @default(autoincrement())
     content    String
-    Plant      Plant?    @relation(fields: [plantId], references: [id])
-    plantId    Int?
+    plant      Plant     @relation(fields: [plantId], references: [id])
+    plantId    Int
     response   Response? @relation(fields: [responseId], references: [id])
     responseId Int?
     createdAt  DateTime  @default(now())
     updatedAt  DateTime  @updatedAt
+    User       User?     @relation(fields: [userId], references: [id])
+    userId     Int?
 }
 
 model Response {

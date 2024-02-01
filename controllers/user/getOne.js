@@ -11,8 +11,16 @@ exports.getOne = async (req, res) => {
       select: {
         userName: true,
         email: true,
-        plantOwned: true,
-        plantGuarded: true,
+        plantOwned: {
+          include: {
+            plant: true, 
+          },
+        },
+        plantGuarded: {
+          include: {
+            plant: true, 
+          },
+        },
         address: true,
       },
     });

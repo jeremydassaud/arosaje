@@ -6,6 +6,9 @@ const seeder = require('./middleware/seeder')
 require("dotenv").config();
 
 const userRoute = require("./routes/user");
+const addressRoute = require("./routes/address")
+const plantRoute = require("./routes/plant")
+const commentRoute = require("./routes/comment")
 
 
 app.use((req, res, next) => {
@@ -23,10 +26,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.use("/api", userRoute);
-// app.use('/images', express.static(path.join(__dirname, 'images')))
-// app.use('/api/post', postRoutes)
-// app.use('/api/auth', userRoutes)
-// app.use('/api/like', likeRoutes)
+app.use("/api/user", userRoute);
+app.use("/api/address", addressRoute)
+app.use("/api/plant", plantRoute)
+app.use("/api/comment", commentRoute)
 
 module.exports = app;
