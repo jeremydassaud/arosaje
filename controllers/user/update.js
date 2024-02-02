@@ -28,7 +28,7 @@ exports.update = async (req, res) => {
         content: "admin",
       },
     });
-     console.log(userId)
+
     if (isAdmin || userIdFromToken === parseInt(userId)) {
       
       let updatedData = {};

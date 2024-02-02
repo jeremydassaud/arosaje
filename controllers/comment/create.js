@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
     const newComment = await prisma.comment.create({
       data: {
         content: req.body.content,
-        plant: {
+        Plant: {
           connect: {
             id: plantId,
           },

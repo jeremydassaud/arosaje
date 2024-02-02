@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 
 exports.delete = async (req, res) => {
   try {
-    const userId = parseInt(req.params.id);
     const commentId = parseInt(req.params.commentId);
 
     const userIdFromToken = req.auth.userId;
@@ -16,33 +15,22 @@ exports.delete = async (req, res) => {
       },
     });
 
-    const commentToDelete = await prisma.comment.findUnique({
-      where: { id: commentId },
-      include: {
-        plant: {
-          include: {
-            plantOwned: {
-              include: {
-                user: true, 
-              },
-            },
-          },
-        },
+    const commentToDelet = await prisma.comment.findUnique({
+      where: {
+        id: commentId,
       },
     });
 
-    const userWhoOwnsPlant = commentToDelete.plant.plantOwned.user.id;
-
-    // Vérifier les autorisations
-    if (isAdmin || userIdFromToken === userWhoOwnsPlant) {
-      // Supprimer le commentaire
+    if (isAdmin || commentToDelet.userId === userIdFromToken) {
       const deletedComment = await prisma.comment.delete({
         where: { id: commentId },
       });
 
-      res.status(200).json({ message: "Comment deleted", data: deletedComment });
+      res
+        .status(200)
+        .json({ message: "Comment deleted", data: deletedComment });
     } else {
-      return res.status(401).json({ error: "Unauthorized" });
+      res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
     console.error(
