@@ -9,16 +9,15 @@ module.exports =(req, res, next) => {
         const userId = decodedToken.userId
         const userRole = decodedToken.role; 
 
-        // const isadmin = decodedToken.isadmin
         req.auth = { userId , userRole}
         if(req.body.userId && req.body.userId !== userId){
-            throw 'User ID non valable'
+            throw ' Bad User ID '
         }else if (req.body.requiredRole && req.body.requiredRole !== userRole) {
-            throw 'Rôle non autorisé';
+            throw 'Role unauthorized';
           }else {
             next()
         }
     } catch (error){
-        res.status(401).json ({ error : error | 'Requête non authentifiée !'})
+        res.status(403).json ({ error : error | 'Requ need auth token'})
     }
 }

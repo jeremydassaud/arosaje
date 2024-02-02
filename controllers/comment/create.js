@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.create = async (req, res) => {
+  console.log("create comment route", req)
   try {
     const userId = parseInt(req.params.id);
     const plantId = parseInt(req.params.plantId);

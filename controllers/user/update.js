@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcryptjs");
 
 exports.update = async (req, res) => {
-  console.log("update user route");
+  console.log("update user route",req);
 
   const userId = req.params.id;
 
@@ -96,6 +96,7 @@ exports.update = async (req, res) => {
       details: "Internal Server Error",
     });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

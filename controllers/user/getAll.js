@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.getAll = async (req, res) => {
-  console.log("getAll user route");
+  console.log("getAll user route", req);
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -28,9 +28,9 @@ exports.getAll = async (req, res) => {
       res.status(200).json(users);
     }
   } catch (error) {
-    console.error(error);
     res.status(404).json({ error: "Users not found" });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

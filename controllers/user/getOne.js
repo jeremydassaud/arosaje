@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.getOne = async (req, res) => {
-  console.log("getOne user route");
+  console.log("getOne user route"),req;
   const id = parseInt(req.params.id);
 
   try {
@@ -22,9 +22,9 @@ exports.getOne = async (req, res) => {
       res.status(200).json(users);
     }
   } catch (error) {
-    console.error(error);
     res.status(404).json({ error: "User not found" });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

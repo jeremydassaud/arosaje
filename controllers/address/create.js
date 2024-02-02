@@ -1,8 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// Fonction pour créer une nouvelle adresse
 exports.create = async (req, res) => {
+  console.log("create address route",req)
   const userId = req.params.userId;
 
   try {
@@ -38,16 +38,12 @@ exports.create = async (req, res) => {
       res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
-    console.error(
-      error,
-      "error: Error unable to create the address",
-      error.message || "Internal Server Error"
-    );
     res.status(500).json({
       error: "Error unable to create the address",
       details: "Internal Server Error",
     });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

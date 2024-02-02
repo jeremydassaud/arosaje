@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.delete = async (req, res) => {
+  console.log("delete comment route", req)
   try {
     const commentId = parseInt(req.params.commentId);
 
@@ -41,6 +42,7 @@ exports.delete = async (req, res) => {
       .status(500)
       .json({ error: "Error deleting comment", details: error.message });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

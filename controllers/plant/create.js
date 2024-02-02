@@ -2,10 +2,11 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.create = async (req, res) => {
+  console.log("create plant route", req)
+  
   const userIdFromToken = req.auth.userId;
 
   try {
-    // Vérifiez si l'utilisateur a le droit de créer une plante
     const isAdmin = await prisma.role.findUnique({
       where: {
         id: req.auth.userRole,
@@ -38,22 +39,19 @@ exports.create = async (req, res) => {
 
       res
         .status(201)
-        .json({ message: "Plante créée avec succès", data: newPlant });
+        .json({ message: "Plante created", data: newPlant });
     } else {
-      res.status(401).json({ error: "Non autorisé à créer une plante" });
+      res.status(401).json({ error: "Unauthorize" });
     }
   } catch (error) {
-    console.error(
-      "Error creating plant:",
-      error.message || "Internal Server Error"
-    );
     res
       .status(500)
       .json({
-        error: "Erreur lors de la création de la plante",
+        error: "Error creating plant",
         details: error.message,
       });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

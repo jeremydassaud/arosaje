@@ -2,11 +2,11 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.update = async (req, res) => {
+  console.log("update plant remove guardian route" ,req)
   const userIdFromToken = req.auth.userId;
   const plantId = parseInt(req.params.plantId);
 
   try {
-    // Vérifiez si l'utilisateur a le droit de supprimer le gardien de la plante
     const isAdmin = await prisma.role.findUnique({
       where: {
         id: req.auth.userRole,
@@ -27,13 +27,13 @@ exports.update = async (req, res) => {
     });
 
     if (!plant) {
-      return res.status(404).json({ error: "Plante non trouvée" });
+      return res.status(404).json({ error: "Plant not found" });
     }
 
     if (!plant.guardian) {
       return res
         .status(400)
-        .json({ error: "La plante n'a pas de gardien à supprimer" });
+        .json({ error: "plant doesn't have guardian" });
     }
 
     if (isAdmin || userIdFromToken === plant.guardianId) {
@@ -42,7 +42,7 @@ exports.update = async (req, res) => {
           id: plantId,
         },
         data: {
-          guardianId: null, // Supprime le gardien en le remettant à null
+          guardianId: null,
         },
         include: {
           owner: true,
@@ -54,20 +54,17 @@ exports.update = async (req, res) => {
 
       res
         .status(200)
-        .json({ message: "Gardien supprimé avec succès", data: updatedPlant });
+        .json({ message: "Gardian deleted", data: updatedPlant });
     }
   } catch (error) {
-    console.error(
-      "Error removing guardian:",
-      error.message || "Internal Server Error"
-    );
     res
       .status(500)
       .json({
-        error: "Erreur lors de la suppression du gardien",
+        error: "Error guardian could not been deleted",
         details: error.message,
       });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

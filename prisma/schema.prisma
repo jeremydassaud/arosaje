@@ -74,19 +74,9 @@ model Comment {
   id         Int       @id @default(autoincrement())
   content    String
   plantId    Int
-  responseId Int?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   User       User?     @relation(fields: [userId], references: [id])
   userId     Int?
-  Response   Response? @relation(fields: [responseId], references: [id])
   Plant      Plant     @relation(fields: [plantId], references: [id])
-}
-
-model Response {
-  id        Int       @id @default(autoincrement())
-  content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Comment   Comment[]
 }

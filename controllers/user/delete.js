@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.delete = async (req, res) => {
-  console.log("delete user route");
+  console.log("delete user route",req);
 
   const userId = req.params.id;
 
@@ -28,15 +28,12 @@ exports.delete = async (req, res) => {
       res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
-    console.error(
-      "Error on the delete of the user:",
-      error.message || "Internal Server Error"
-    );
     res.status(500).json({
       error: "Error on the delete of the user",
       details: "Internal Server Error",
     });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

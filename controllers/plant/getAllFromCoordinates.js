@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.getAll= async (req, res) => {
+  console.log("get all plant from coordinates route",req)
   try {
     const { lat, lng } = req.params;
 
@@ -25,9 +26,9 @@ exports.getAll= async (req, res) => {
 
     res.status(200).json({ message: "Plants retrieved", data: plants });
   } catch (error) {
-    console.error("Error retrieving plants:", error.message || "Internal Server Error");
     res.status(500).json({ error: "Error retrieving plants", details: error.message });
   } finally {
+    console.log(res)
     await prisma.$disconnect();
   }
 };

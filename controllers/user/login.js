@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 //logOne
 
 exports.login = async (req, res) => {
-    console.log("login user route");
+    console.log("login user route",req);
   
     try {
       const { email, password } = req.body;
@@ -34,6 +34,7 @@ exports.login = async (req, res) => {
     } catch (error) {
       res.status(404).json({ error });
     } finally {
+      console.log(res)
       await prisma.$disconnect();
     }
   };

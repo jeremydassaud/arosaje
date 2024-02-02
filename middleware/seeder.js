@@ -27,6 +27,8 @@ async function seeder() {
       },
     });
 
+    // create the admin account
+
     await prisma.user.create({
       data: {
         userName: "Admin",

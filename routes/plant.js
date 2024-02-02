@@ -16,14 +16,14 @@ const removeGuardian = require("../controllers/plant/removeGuardian")
 router.post("/users/:id/plants", authorized, createPlant.create);
 
 //read
-router.get("/by-coordinates/:lat/:lng", getPlantsByCoordinates.getAll);
+router.get("/by-coordinates/:lat/:lng", authorized, getPlantsByCoordinates.getAll);
 
 //update
 router.put("/:plantId/addGuardian", authorized, addGuardian.update); 
 router.put("/:plantId/removeGuardian", authorized, removeGuardian.update)
 
 //delete
-router.delete("/:type/:id", authorized, deletePlant.delete);
+router.delete("/:id", authorized, deletePlant.delete);
 
 
 
