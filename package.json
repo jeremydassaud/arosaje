@@ -5,6 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "dev": " nodemon server",
+    "db--reset" : " npx prisma migrate reset",
+    "db--migrate": "npx prisma migrate dev",
     "test": "jest"
   },
   "keywords": [],

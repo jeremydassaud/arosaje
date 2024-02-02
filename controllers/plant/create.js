@@ -2,70 +2,45 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.create = async (req, res) => {
-  const userId = parseInt(req.params.id);
-  const type = req.params.type;  // Ajout du paramètre de type
+  const userIdFromToken = req.auth.userId;
 
   try {
-    const { common_name, scientific_name, image_url, addressId } = req.body;
-
-    const userIdFromToken = req.auth.userId;
-    const userRolesFromToken = req.auth.userRole;
-
+    // Vérifiez si l'utilisateur a le droit de créer une plante
     const isAdmin = await prisma.role.findUnique({
       where: {
-        id: userRolesFromToken,
+        id: req.auth.userRole,
         content: "admin",
       },
     });
 
-    if (isAdmin || userIdFromToken === userId) {
-      let newPlant;
+    if (isAdmin || userIdFromToken === parseInt(req.params.id)) {
+      const { common_name, scientific_name, image_url, addressId } = req.body;
 
-      if (type === "owned") {
-        // Créer une plante possédée
-        newPlant = await prisma.plant.create({
-          data: {
-            common_name,
-            scientific_name,
-            image_url,
-            address: {
-              connect: {
-                id: addressId,
-              },
-            },
-            plantOwned: {
-              create: {
-                userId,
-              },
+      const newPlant = await prisma.plant.create({
+        data: {
+          common_name,
+          scientific_name,
+          image_url,
+          owner: { connect: { id: userIdFromToken } },
+          address: {
+            connect: {
+              id: addressId,
             },
           },
-        });
-      } else if (type === "guarded") {
-        // Créer une plante gardée
-        newPlant = await prisma.plant.create({
-          data: {
-            common_name,
-            scientific_name,
-            image_url,
-            address: {
-              connect: {
-                id: addressId,
-              },
-            },
-            plantGuarded: {
-              create: {
-                userId,
-              },
-            },
-          },
-        });
-      } else {
-        return res.status(400).json({ error: "Invalid type" });
-      }
+        },
+        include: {
+          owner: true,
+          guardian: true,
+          address: true,
+          comment: true,
+        },
+      });
 
-      res.status(201).json({ message: "Plant created", data: newPlant });
+      res
+        .status(201)
+        .json({ message: "Plante créée avec succès", data: newPlant });
     } else {
-      return res.status(401).json({ error: "Unauthorized" });
+      res.status(401).json({ error: "Non autorisé à créer une plante" });
     }
   } catch (error) {
     console.error(
@@ -74,7 +49,10 @@ exports.create = async (req, res) => {
     );
     res
       .status(500)
-      .json({ error: "Error creating plant", details: error.message });
+      .json({
+        error: "Erreur lors de la création de la plante",
+        details: error.message,
+      });
   } finally {
     await prisma.$disconnect();
   }

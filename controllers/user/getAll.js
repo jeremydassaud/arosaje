@@ -8,25 +8,9 @@ exports.getAll = async (req, res) => {
       select: {
         userName: true,
         email: true,
-        plantOwned: {
-          include: {
-            plant: {
-              include : {
-                comment : true
-              }
-            },
-          },
-        },
-        plantGuarded: {
-          include: {
-            plant: {
-              include : {
-                comment : true
-              }
-            },
-          },
-        },
         address: true,
+        plantsOwned :true,
+        plantsGuarded :true
       },
     });
 

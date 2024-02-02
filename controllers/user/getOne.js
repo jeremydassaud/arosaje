@@ -11,17 +11,9 @@ exports.getOne = async (req, res) => {
       select: {
         userName: true,
         email: true,
-        plantOwned: {
-          include: {
-            plant: true, 
-          },
-        },
-        plantGuarded: {
-          include: {
-            plant: true, 
-          },
-        },
         address: true,
+        plantsOwned :true,
+        plantsGuarded :true
       },
     });
     if (!users) {

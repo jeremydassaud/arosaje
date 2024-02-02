@@ -9,12 +9,16 @@ const authorized = require("../middleware/auth");
 const createPlant = require('../controllers/plant/create')
 const deletePlant = require('../controllers/plant/delete')
 const getPlantsByCoordinates = require("../controllers/plant/getAllFromCoordinates")
+const updatedPlant = require("../controllers/plant/update")
 
 //create
-router.post("/users/:id/plants/:type", authorized, createPlant.create);
+router.post("/users/:id/plants", authorized, createPlant.create);
 
 //read
 router.get("/by-coordinates/:lat/:lng", getPlantsByCoordinates.getAll);
+
+//update
+router.put("/plants/:plantId/addGuardian", authorized, updatedPlant.addGuardian); 
 
 //delete
 router.delete("/:type/:id", authorized, deletePlant.delete);
