@@ -24,6 +24,9 @@ app.use((req, res, next) => {
   next();
 });
 
+seeder.seeder()
+seeder.testUserSeeder()
+
 app.use(express.json());
 
 app.use("/api/user", userRoute);

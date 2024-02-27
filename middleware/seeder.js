@@ -47,7 +47,70 @@ async function seeder() {
     console.log("---------------- seed Fallback ----------------");
     console.log(error);
     console.log("---------------- seed Fallback ----------------");
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
-seeder()
+
+async function testUserSeeder() {
+  let salt = bcrypt.genSaltSync(10);
+
+  try {
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        userName: "TestUser",
+        email: "test@example.com",
+        password: bcrypt.hashSync("password", salt),
+      },
+    });
+
+    // Create address
+    const address = await prisma.address.create({
+      data: {
+        number: 1,
+        street: "Test Street",
+        postalCode: 12345,
+        city: "Test City",
+        country: "Test Country",
+        lat: 45.764043,
+        lng: 4.835659,
+        userId: user.id,
+      },
+    });
+
+    // Create plants within ±0.0009 of the address's lat and lng
+    for (let i = 0; i < 10; i++) {
+      const latOffset = Math.random() * 0.0018 - 0.0009;
+      const lngOffset = Math.random() * 0.0018 - 0.0009;
+
+      const plant = await prisma.plant.create({
+        data: {
+          common_name: `Plant ${i + 1}`,
+          scientific_name: `Scientificus ${i + 1}`,
+          image_url: `https://example.com/plant-${i + 1}.jpg`,
+          address: {
+            connect: {
+              id: address.id,
+            },
+          },
+          owner: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+    }
+
+    console.log("Seed testUser created successfully");
+
+  } catch (error) {
+    console.error("Seed fallback error:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+module.exports = { seeder, testUserSeeder}

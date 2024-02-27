@@ -12,6 +12,7 @@ const getPlantsByCoordinates = require("../controllers/plant/getAllFromCoordinat
 const getPlants = require("../controllers/plant/getOne")
 const addGuardian = require("../controllers/plant/addGuardian")
 const removeGuardian = require("../controllers/plant/removeGuardian")
+const getPlantsForGuardian = require("../controllers/plant/getPlantsForGuardian")
 
 //create
 router.post("/users/:id/plants", authorized, createPlant.create);
@@ -19,6 +20,7 @@ router.post("/users/:id/plants", authorized, createPlant.create);
 //read
 router.get("/by-coordinates/:lat/:lng", authorized, getPlantsByCoordinates.getAll);
 router.get("/:plantId", authorized, getPlants.getOne)
+router.get("/:userId/:addressId", authorized, getPlantsForGuardian.getAll);
 
 //update
 router.put("/:plantId/addGuardian", authorized, addGuardian.update); 
