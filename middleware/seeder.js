@@ -62,7 +62,12 @@ async function testUserSeeder() {
       data: {
         userName: "TestUser",
         email: "test@example.com",
-        password: bcrypt.hashSync("password", salt),
+        password: bcrypt.hashSync("test", salt),
+        userRole: {
+          create: {
+            roleId: 2,
+          },
+        },
       },
     });
 
@@ -89,7 +94,7 @@ async function testUserSeeder() {
         data: {
           common_name: `Plant ${i + 1}`,
           scientific_name: `Scientificus ${i + 1}`,
-          image_url: `https://example.com/plant-${i + 1}.jpg`,
+          image_url: `https://cdn.pixabay.com/photo/2024/01/04/09/34/plant-8486960_960_720.png`,
           address: {
             connect: {
               id: address.id,

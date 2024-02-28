@@ -73,7 +73,7 @@ exports.getAll = async (req, res) => {
           userId: plant.ownerId,
           addressId: plant.addressId,
           address: plant.address,
-          owner: plant.owner, // Inclure les informations sur le propriétaire
+          owner: plant.owner,
           plants: [],
         };
       }

@@ -13,6 +13,10 @@ exports.getAll = async (req, res) => {
         ownerId : userId,
         addressId : addressId,
       },
+      include :{
+        owner:true,
+        comment:true
+      }
     });
 
     res
