@@ -33,6 +33,7 @@ exports.delete = async (req, res) => {
       res.status(403).json({ error: "Unauthorized" });
     }
   } catch (error) {
+    console.log("------------------------------------------------",error)
     res.status(500).json({
       error: "Error on the delete of the address",
       details: "Internal Server Error",
