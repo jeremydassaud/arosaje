@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 
 seeder.seeder()
 seeder.testUserSeeder()
+seeder.HeptestUserSeeder()
 
 app.use(express.json());
 

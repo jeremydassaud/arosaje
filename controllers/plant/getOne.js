@@ -12,7 +12,11 @@ exports.getOne = async (req, res) => {
         id: plantId,
       },
       include : {
-        comment:true,
+        comment: {
+          include: {
+            User: true// Inclure les informations de l'utilisateur associé au commentaire
+       ,   }
+        },
         owner:true
       }
     });
