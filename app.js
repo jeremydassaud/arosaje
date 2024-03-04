@@ -24,13 +24,13 @@ app.use((req, res, next) => {
   next();
 });
 
-const lunchSeeder = async () => {
+const launchSeeder = async () => {
   await seeder.seeder()
   await seeder.testUserSeeder()
   await seeder.HeptestUserSeeder()
 }
 
-lunchSeeder()
+launchSeeder()
 
 app.use(express.json());
 
