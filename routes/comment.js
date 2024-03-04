@@ -14,9 +14,9 @@ const deleteComment = require("../controllers/comment/delete")
 router.post("/users/:id/plants/:plantId/comments", authorized, createComment.create);
 
 // Update
-router.put("/users/:id/plants/:type/:plantId/comments/:commentId",authorized, updateComment.update);
+router.put("/:commentId",authorized, updateComment.update);
 
 // Delete
-router.delete("/users/:id/plants/:type/:plantId/comments/:commentId", authorized, deleteComment.delete);
+router.delete("/:commentId", authorized, deleteComment.delete);
 
 module.exports = router;
