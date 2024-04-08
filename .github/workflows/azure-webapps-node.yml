@@ -59,4 +59,4 @@ jobs:
           app-name: 'arosajeGJMEL'
           slot-name: 'production'
           package: .
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_fae57367f23c40f89569e3bae88e3a34 }}
+          publish-profile: ${{ secrets.AzureAppService }}
