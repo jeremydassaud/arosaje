@@ -3,3 +3,4 @@ node_modules
 mainBdd.sqlite
 migrations
 mainBdd.db-journal
+coverage
