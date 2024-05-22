@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { PrismaClient } = require('@prisma/client');
-const { update } = require('../update.js'); // Adjust this path as necessary
+const { update } = require('../update.js');
 
 jest.mock('bcryptjs');
 jest.mock('@prisma/client', () => {
@@ -55,11 +55,10 @@ describe('Update Function Tests', () => {
     });
 
     it('should fail to update when not authorized', async () => {
-        mockRequest.auth.userId = 2; // Not matching the userId from params
+        mockRequest.auth.userId = 2;
         await update(mockRequest, mockResponse);
         expect(mockResponse.status).toHaveBeenCalledWith(403);
         expect(mockResponse.json).toHaveBeenCalledWith({ error: "Unauthorized" });
     });
 
-    // Add more tests as necessary to cover password rules and other error cases
 });

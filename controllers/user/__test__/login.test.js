@@ -3,7 +3,7 @@ const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { login } = require('../login.js'); // Assure-toi que le chemin est correct
+const { login } = require('../login.js');
 const app = express();
 
 app.use(express.json());

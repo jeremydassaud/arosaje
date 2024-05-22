@@ -51,7 +51,6 @@ exports.create = async (req, res) => {
         details: error.message,
       });
   } finally {
-    console.log(res)
     await prisma.$disconnect();
   }
 };

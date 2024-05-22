@@ -39,7 +39,6 @@ exports.delete = async (req, res) => {
       .status(500)
       .json({ error: "Error deleting plant", details: error.message });
   } finally {
-    console.log(res)
     await prisma.$disconnect();
   }
 };

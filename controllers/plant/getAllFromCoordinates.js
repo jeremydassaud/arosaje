@@ -97,7 +97,6 @@ exports.getAll = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Error retrieving plants", details: error.message });
   } finally {
-    console.log(res);
     await prisma.$disconnect();
   }
 };

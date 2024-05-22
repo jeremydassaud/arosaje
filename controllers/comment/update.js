@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.update = async (req, res) => {
-  console.log("update comment route", req)
+  console.log("update comment route", req);
   try {
     const userId = parseInt(req.params.id);
     const commentId = parseInt(req.params.commentId);
@@ -30,11 +30,8 @@ exports.update = async (req, res) => {
       return res.status(401).json({ error: "Unauthorized" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Error updating comment", details: error.message });
+    res.status(500).json({ error: "Error updating comment", details: error.message });
   } finally {
-    console.log(res)
     await prisma.$disconnect();
   }
 };

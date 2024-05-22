@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
-const { getAll } = require('../getAll.js'); // Assure-toi que le chemin est correct
+const { getAll } = require('../getAll.js'); 
 const app = express();
 
 app.use(express.json());
