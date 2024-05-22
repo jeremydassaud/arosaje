@@ -60,7 +60,6 @@ exports.signup = async (req, res) => {
       error: "Can't create a user please verify the log of your server",
     });
   } finally {
-    console.log(res)
     await prisma.$disconnect();
   }
 };

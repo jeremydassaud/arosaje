@@ -33,7 +33,6 @@ exports.delete = async (req, res) => {
       details: "Internal Server Error",
     });
   } finally {
-    console.log(res)
     await prisma.$disconnect();
   }
 };

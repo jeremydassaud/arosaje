@@ -24,7 +24,6 @@ exports.getOne = async (req, res) => {
   } catch (error) {
     res.status(404).json({ error: "User not found" });
   } finally {
-    console.log(res)
     await prisma.$disconnect();
   }
 };

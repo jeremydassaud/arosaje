@@ -34,7 +34,6 @@ exports.login = async (req, res) => {
     } catch (error) {
       res.status(404).json({ error });
     } finally {
-      console.log(res)
       await prisma.$disconnect();
     }
   };
