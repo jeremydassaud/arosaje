@@ -25,7 +25,7 @@ const options = {
       ],
       servers: [
         {
-          url: `${process.env.APIURL + process.env.PORT}`,
+          url: `${process.env.SWAGGERURL}`,
         },
       ],
     },
