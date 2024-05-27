@@ -29,6 +29,8 @@
     "prisma": "^5.8.1",
     "sqlite3": "^5.1.7",
     "supertest": "^7.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
     "uuidv4": "^6.2.13"
   },

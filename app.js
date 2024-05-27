@@ -10,6 +10,9 @@ const addressRoute = require("./routes/address")
 const plantRoute = require("./routes/plant")
 const commentRoute = require("./routes/comment")
 
+const { swaggerUi, swaggerSpec } = require('./swagger');
+
+
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -33,6 +36,8 @@ const launchSeeder = async () => {
 launchSeeder()
 
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/user", userRoute);
 app.use("/api/address", addressRoute)
