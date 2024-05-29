@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "psql"
-  url      = "postgres://default:************@ep-proud-frost-a4v0rs6m.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model User {
