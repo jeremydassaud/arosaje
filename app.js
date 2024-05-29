@@ -12,7 +12,11 @@ const commentRoute = require("./routes/comment")
 
 const { swaggerUi, swaggerSpec } = require('./swagger');
 
-
+export function GET(request) {
+  let usersPath = path.join(process.cwd(), './prisma/schema.prisma');
+  let file = fs.readFileSync(usersPath);
+  return new Response(file);
+}
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
