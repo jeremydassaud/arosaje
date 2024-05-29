@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./mainBdd.sqlite"
+  provider = "psql"
+  url      = "postgres://default:************@ep-proud-frost-a4v0rs6m.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
 }
 
 model User {
